@@ -2,73 +2,157 @@
 
 {% block content %}
 
+<div class="page-header">
+  <h1><i class="fa-solid fa-paw me-2"></i>{{ mascota.nombre }}</h1>
+  <p>Detalle completo de la mascota</p>
+</div>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-body">
-      <h2 class="mb-3 text-primary">
-        <i class="fa-solid fa-paw me-2"></i> {{ mascota.nombre }}
-      </h2>
+<div class="row g-4">
 
+  <!-- Imagen y datos -->
+  <div class="col-md-5">
+    <div class="card">
+      <div style="border-radius:14px 14px 0 0; overflow:hidden; height:280px; background:#e8edff;">
         {% if mascota.foto %}
-          <img src="{{ mascota.foto.url }}" class="img-fluid rounded mb-3" alt="{{ mascota.nombre }}">
+          <img src="{{ mascota.foto.url }}" alt="{{ mascota.nombre }}"
+               style="width:100%; height:100%; object-fit:cover;">
         {% else %}
-          <img src="https://via.placeholder.com/400x300?text=Sin+Foto" class="img-fluid rounded mb-3">
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+            <i class="fa-solid fa-paw" style="font-size:4rem; color:#c7d2fe;"></i>
+          </div>
         {% endif %}
-
-
-        
-
-      <!-- Datos -->
-      <p><strong>Edad:</strong> {{ mascota.edad }} años</p>
-      <p><strong>Descripción:</strong> {{ mascota.descripcion }}</p>
-      <p><strong>Tipo:</strong> {{ mascota.tipo.nombre }}</p>
-      <p><strong>Estado:</strong> {{ mascota.estado }}</p>
-
-      {% if mascota.estado == 'Disponible' %}
-      <form method="post">
-      {% csrf_token %}
-
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="nombre" name="nombre" required>
+      </div>
+      <div style="padding:1.25rem;">
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+          <span class="{% if mascota.estado == 'Disponible' %}badge-disponible{% else %}badge-adoptado{% endif %}">
+            <i class="fa-solid fa-{% if mascota.estado == 'Disponible' %}circle-check{% else %}heart{% endif %} me-1"></i>
+            {{ mascota.estado }}
+          </span>
         </div>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" id="email" name="email" required>
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.92rem;">
+            <i class="fa-solid fa-tag" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280;">Tipo:</span>
+            <strong style="color:#1a1a6e;">{{ mascota.tipo.nombre }}</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.92rem;">
+            <i class="fa-solid fa-cake-candles" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280;">Edad:</span>
+            <strong style="color:#1a1a6e;">{{ mascota.edad }} año{% if mascota.edad != 1 %}s{% endif %}</strong>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.6rem; font-size:0.92rem;">
+            <i class="fa-solid fa-align-left" style="color:#4a90d9; width:16px; margin-top:3px;"></i>
+            <span style="color:#4b5563; line-height:1.6;">{{ mascota.descripcion }}</span>
+          </div>
         </div>
-
-        <div class="mb-3">
-          <label for="telefono" class="form-label">Telefono</label>
-          <input type="text" class="form-control" id="telefono" name="telefono" required>
-        </div>
-
-        <button type="submit" class="btn btn-success">
-          <i class="fa-solid fa-heart me-1"></i> Adoptar
-        </button>
-      </form>
-
-      {% else %}
-        <div class="alert aler-info">
-          Esta mascota fue adoptada
-        </div>
-        {% if adopcion %}
-        <h5 class="mt-3">Adoptado por: </h5>
-        <ul>
-          <li><strong>Nombre:</strong> {{ adopcion.persona.nombre }}</li>
-          <li><strong>Email:</strong> {{ adopcion.persona.email }}</li>
-          <li><strong>Telefono:</strong> {{ adopcion.persona.telefono }}</li>
-          <li><strong>Fecha de adopcion:</strong> {{ adopcion.fecha_adopcion }}</li>
-        </ul>
-        {% endif %}
-      {% endif %}
-
-
-
-      <!-- Botón volver -->
-      <a href="{% url 'app1:home' %}" class="btn btn-secondary mt-3">
-        <i class="fa-solid fa-arrow-left me-1"></i> Volver
-      </a>
+      </div>
     </div>
+
+    <a href="{% url 'app1:home' %}" class="btn btn-secondary-custom mt-3 w-100" style="text-decoration:none; display:block; text-align:center;">
+      <i class="fa-solid fa-arrow-left me-1"></i>Volver al inicio
+    </a>
   </div>
+
+  <!-- Adopción / Info adoptante -->
+  <div class="col-md-7">
+
+    {% if mascota.estado == 'Disponible' %}
+    <div class="card">
+      <div class="card-header-custom" style="background: linear-gradient(135deg,#1a6e3a,#2d9e5f);">
+        <i class="fa-solid fa-heart me-2"></i>¡Adopta a {{ mascota.nombre }}!
+      </div>
+      <div style="padding:1.75rem;">
+        <p style="color:#4b5563; font-size:0.93rem; margin-bottom:1.5rem;">
+          Completa el formulario y dale un hogar a esta mascota.
+        </p>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Tu nombre completo</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background:#e8fff0; border:1.5px solid #a7f3d0; border-right:none; color:#1a6e3a;">
+                <i class="fa-solid fa-user"></i>
+              </span>
+              <input type="text" class="form-control" name="nombre"
+                     placeholder="Ej: Juan Pérez" required
+                     style="border:1.5px solid #a7f3d0; border-left:none;">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background:#e8fff0; border:1.5px solid #a7f3d0; border-right:none; color:#1a6e3a;">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              <input type="email" class="form-control" name="email"
+                     placeholder="tucorreo@ejemplo.com" required
+                     style="border:1.5px solid #a7f3d0; border-left:none;">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Teléfono</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background:#e8fff0; border:1.5px solid #a7f3d0; border-right:none; color:#1a6e3a;">
+                <i class="fa-solid fa-phone"></i>
+              </span>
+              <input type="text" class="form-control" name="telefono"
+                     placeholder="Ej: +56 9 1234 5678" required
+                     style="border:1.5px solid #a7f3d0; border-left:none;">
+            </div>
+          </div>
+          <button type="submit"
+                  style="background:linear-gradient(135deg,#1a3a1a,#1a6e3a); border:none; color:#fff; font-weight:600; border-radius:8px; padding:0.7rem 1.75rem; font-size:1rem; width:100%; transition:opacity 0.2s;"
+                  onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+            <i class="fa-solid fa-heart me-2"></i>Confirmar adopción
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% else %}
+    <div class="card">
+      <div class="card-header-custom" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c);">
+        <i class="fa-solid fa-heart me-2"></i>Mascota adoptada
+      </div>
+      <div style="padding:1.75rem;">
+        <div style="background:#fef2f2; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.75rem;">
+          <i class="fa-solid fa-circle-info" style="color:#b91c1c; font-size:1.1rem;"></i>
+          <span style="color:#7f1d1d; font-size:0.93rem; font-weight:500;">{{ mascota.nombre }} ya tiene un hogar feliz 🎉</span>
+        </div>
+
+        {% if adopcion %}
+        <h6 style="font-weight:700; color:#1a1a6e; margin-bottom:1rem;">
+          <i class="fa-solid fa-user-check me-2"></i>Datos del adoptante
+        </h6>
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:center; gap:0.75rem; padding:0.65rem 1rem; background:#f8faff; border-radius:8px; border:1px solid #e8edff;">
+            <i class="fa-solid fa-user" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280; font-size:0.88rem;">Nombre:</span>
+            <strong style="color:#1a1a6e;">{{ adopcion.persona.nombre }}</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.75rem; padding:0.65rem 1rem; background:#f8faff; border-radius:8px; border:1px solid #e8edff;">
+            <i class="fa-solid fa-envelope" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280; font-size:0.88rem;">Email:</span>
+            <strong style="color:#1a1a6e;">{{ adopcion.persona.email }}</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.75rem; padding:0.65rem 1rem; background:#f8faff; border-radius:8px; border:1px solid #e8edff;">
+            <i class="fa-solid fa-phone" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280; font-size:0.88rem;">Teléfono:</span>
+            <strong style="color:#1a1a6e;">{{ adopcion.persona.telefono }}</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.75rem; padding:0.65rem 1rem; background:#f8faff; border-radius:8px; border:1px solid #e8edff;">
+            <i class="fa-solid fa-calendar" style="color:#4a90d9; width:16px;"></i>
+            <span style="color:#6b7280; font-size:0.88rem;">Fecha:</span>
+            <strong style="color:#1a1a6e;">{{ adopcion.fecha_adopcion }}</strong>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
 {% endblock %}

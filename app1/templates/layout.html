@@ -2,80 +2,266 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Adopta Mascotas</title>
+  <title>AdoptaApp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" 
-        crossorigin="anonymous">
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4ff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
-        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" 
-        crossorigin="anonymous" 
-        referrerpolicy="no-referrer" />
+    /* ── Navbar ── */
+    .topbar {
+      background: linear-gradient(135deg, #1a1a6e, #2d2db5);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(26,26,110,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-brand {
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+    .topbar-brand span { color: #7dd3fc; }
+    .topbar-brand i { margin-right: 0.5rem; }
+
+    .btn-logout {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      border-radius: 8px;
+      padding: 0.4rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.22); color: #fff; }
+
+    /* ── Layout ── */
+    .app-wrapper {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 260px;
+      min-height: calc(100vh - 56px);
+      background: #1a1a6e;
+      padding: 1.5rem 0;
+      flex-shrink: 0;
+    }
+
+    .sidebar-section {
+      padding: 0.5rem 1.25rem 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 0.75rem;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: background 0.18s, color 0.18s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border-left-color: #7dd3fc;
+    }
+    .sidebar-link i {
+      width: 18px;
+      text-align: center;
+      color: #4a90d9;
+    }
+    .sidebar-link:hover i, .sidebar-link.active i { color: #7dd3fc; }
+
+    .sidebar-divider {
+      border-color: rgba(255,255,255,0.1);
+      margin: 0.75rem 1.25rem;
+    }
+
+    .sidebar-badge {
+      margin-left: auto;
+      background: #2d2db5;
+      color: #7dd3fc;
+      font-size: 0.7rem;
+      border-radius: 50px;
+      padding: 0.15rem 0.55rem;
+    }
+
+    /* ── Main content ── */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-bottom: 1.75rem;
+    }
+    .page-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1a1a6e;
+    }
+    .page-header p {
+      color: #6b7280;
+      font-size: 0.92rem;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Cards ── */
+    .card {
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(26,26,110,0.08);
+    }
+    .card-header-custom {
+      background: linear-gradient(135deg, #1a1a6e, #2d2db5);
+      color: #fff;
+      border-radius: 14px 14px 0 0;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* ── Forms ── */
+    .form-label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.88rem;
+      margin-bottom: 0.35rem;
+    }
+    .form-control, .form-select {
+      border: 1.5px solid #c7d2fe;
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.93rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #2d2db5;
+      box-shadow: 0 0 0 3px rgba(45,45,181,0.1);
+    }
+
+    .btn-primary-custom {
+      background: linear-gradient(135deg, #1a1a6e, #2d2db5);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary-custom:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+
+    .btn-secondary-custom {
+      background: #f3f4f6;
+      border: 1.5px solid #d1d5db;
+      color: #374151;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .btn-secondary-custom:hover { background: #e5e7eb; color: #111; }
+
+    /* ── Status badges ── */
+    .badge-disponible {
+      background: #d1fae5; color: #065f46;
+      border-radius: 50px; padding: 0.3rem 0.75rem; font-size: 0.82rem; font-weight: 600;
+    }
+    .badge-adoptado {
+      background: #fee2e2; color: #991b1b;
+      border-radius: 50px; padding: 0.3rem 0.75rem; font-size: 0.82rem; font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { padding: 1rem; }
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="{% url 'app1:home' %}">
-        <i class="fa-solid fa-paw me-2"></i>Adopta Mascotas
-      </a>
-
-      <div>
-        <a href="{% url 'app1:cerrarSesion' %}" class="btn btn-light">
-          <i class="fa-solid fa-door-open me-1"></i> Cerrar sesión
-        </a>
-      </div>
-
-    </div>
+  <nav class="topbar">
+    <a class="topbar-brand" href="{% url 'app1:home' %}">
+      <i class="fa-solid fa-paw"></i>Adopta<span>App</span>
+    </a>
+    <a href="{% url 'app1:cerrarSesion' %}" class="btn-logout">
+      <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>Cerrar sesión
+    </a>
   </nav>
 
-  <!-- Contenido principal -->
-  <div class="container-fluid mt-4">
-    <div class="row">
-      <!-- Sidebar -->
-      <aside class="col-md-3 mb-3">
-        <div class="list-group shadow-sm">
-          <a href="{% url 'app1:crearMascota' %}" class="list-group-item list-group-item-action list-group-item-primary fw-bold">
-            <i class="fa-solid fa-plus me-2"></i>Nueva Mascota
-          </a>
-          <a href="{% url 'app1:crearTipo' %}" class="list-group-item list-group-item-action list-group-item-primary fw-bold">
-            <i class="fa-solid fa-plus me-2"></i>Nuevo Tipo
-          </a>
-          <a href="{% url 'app1:listaAdoptantes' %}" class="list-group-item list-group-item-action list-group-item-success fw-bold">
-            <i class="fa-solid fa-users me-2"></i>Lista de Adoptantes
-          </a>
-          <hr class="my-2">
-          <h6 class="px-3 text-muted">Tipos de Mascotas</h6>
+  <div class="app-wrapper">
 
-          {% for tipo in tipos %}
-            <a href="{% url 'app1:mascotasxtipo' tipo.id %}" class="list-group-item list-group-item-action">
-              <i class="fa-solid fa-paw me-2 text-primary"></i> {{ tipo.nombre }}
-            </a>
-          {% empty %}
-            <p class="px-3 text-muted">No hay tipos aún</p>
-          {% endfor %}
-        </div>
-      </aside>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">Acciones</div>
 
-      <!-- Área de contenido dinámico -->
-      <main class="col-md-9">
+      <a href="{% url 'app1:crearMascota' %}" class="sidebar-link">
+        <i class="fa-solid fa-plus-circle"></i> Nueva Mascota
+        <span class="sidebar-badge">+</span>
+      </a>
+      <a href="{% url 'app1:crearTipo' %}" class="sidebar-link">
+        <i class="fa-solid fa-tag"></i> Nuevo Tipo
+        <span class="sidebar-badge">+</span>
+      </a>
+      <a href="{% url 'app1:listaAdoptantes' %}" class="sidebar-link">
+        <i class="fa-solid fa-users"></i> Adoptantes
+      </a>
 
-        {% block content %}{% endblock %}
+      <hr class="sidebar-divider">
+      <div class="sidebar-section">Filtrar por tipo</div>
 
-      </main>
-    </div>
+      <a href="{% url 'app1:home' %}" class="sidebar-link">
+        <i class="fa-solid fa-border-all"></i> Todos
+      </a>
+
+      {% for tipo in tipos %}
+        <a href="{% url 'app1:mascotasxtipo' tipo.id %}" class="sidebar-link">
+          <i class="fa-solid fa-paw"></i> {{ tipo.nombre }}
+        </a>
+      {% empty %}
+        <span style="padding:0.5rem 1.25rem; color:rgba(255,255,255,0.3); font-size:0.85rem;">Sin tipos aún</span>
+      {% endfor %}
+    </aside>
+
+    <!-- Contenido -->
+    <main class="main-content">
+      {% block content %}{% endblock %}
+    </main>
+
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
-          integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" 
-          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

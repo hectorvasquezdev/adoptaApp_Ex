@@ -2,33 +2,76 @@
 
 {% block content %}
 
-  <h2 class="mb-4"><i class="fa-solid fa-users me-2"></i> Lista de Adoptantes</h2>
+<div class="page-header">
+  <h1><i class="fa-solid fa-users me-2"></i>Lista de Adoptantes</h1>
+  <p>Historial completo de adopciones registradas</p>
+</div>
 
-  <table class="table table-striped table-hover shadow-sm">
-    <thead class="table-primary">
-      <tr>
-        <th>Mascota</th>
-        <th>Adoptante</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Fecha</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for adopcion in adopciones %}
-        <tr>
-          <td>{{ adopcion.mascota.nombre }}</td>
-          <td>{{ adopcion.persona.nombre }}</td>
-          <td>{{ adopcion.persona.email }}</td>
-          <td>{{ adopcion.persona.telefono }}</td>
-          <td>{{ adopcion.fecha_adopcion }}</td>
+{% if adopciones %}
+
+<!-- Contador -->
+<div style="display:flex; gap:1rem; margin-bottom:1.75rem; flex-wrap:wrap;">
+  <div style="background:#fff; border-radius:12px; padding:1rem 1.5rem; box-shadow:0 2px 8px rgba(26,26,110,0.08); display:flex; align-items:center; gap:0.75rem; min-width:160px;">
+    <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1a1a6e,#2d2db5);display:flex;align-items:center;justify-content:center;">
+      <i class="fa-solid fa-heart" style="color:#7dd3fc;"></i>
+    </div>
+    <div>
+      <div style="font-size:1.5rem; font-weight:700; color:#1a1a6e; line-height:1;">{{ adopciones|length }}</div>
+      <div style="font-size:0.78rem; color:#9ca3af;">Adopciones</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header-custom">
+    <i class="fa-solid fa-table me-2"></i>Registro de adopciones
+  </div>
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#f8faff; border-bottom:2px solid #e8edff;">
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">#</th>
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Mascota</th>
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Adoptante</th>
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Email</th>
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Teléfono</th>
+          <th style="padding:0.85rem 1.25rem; text-align:left; font-size:0.8rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Fecha</th>
         </tr>
-      {% empty %}
-        <tr>
-          <td colspan="5" class="text-muted text-center">Aun no hay adopciones registradas</td>
+      </thead>
+      <tbody>
+        {% for adopcion in adopciones %}
+        <tr style="border-bottom:1px solid #f3f4f6; transition:background 0.15s;"
+            onmouseover="this.style.background='#f8faff'" onmouseout="this.style.background=''">
+          <td style="padding:1rem 1.25rem; color:#9ca3af; font-size:0.85rem;">{{ forloop.counter }}</td>
+          <td style="padding:1rem 1.25rem;">
+            <div style="display:flex; align-items:center; gap:0.65rem;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1a1a6e,#4a90d9);display:flex;align-items:center;justify-content:center; flex-shrink:0;">
+                <i class="fa-solid fa-paw" style="color:#7dd3fc; font-size:0.75rem;"></i>
+              </div>
+              <span style="font-weight:600; color:#1a1a6e; font-size:0.92rem;">{{ adopcion.mascota.nombre }}</span>
+            </div>
+          </td>
+          <td style="padding:1rem 1.25rem; font-weight:500; color:#374151; font-size:0.92rem;">{{ adopcion.persona.nombre }}</td>
+          <td style="padding:1rem 1.25rem; color:#4b5563; font-size:0.88rem;">{{ adopcion.persona.email }}</td>
+          <td style="padding:1rem 1.25rem; color:#4b5563; font-size:0.88rem;">{{ adopcion.persona.telefono }}</td>
+          <td style="padding:1rem 1.25rem;">
+            <span style="background:#e8edff; color:#1a1a6e; border-radius:50px; padding:0.25rem 0.75rem; font-size:0.8rem; font-weight:500;">
+              <i class="fa-solid fa-calendar me-1"></i>{{ adopcion.fecha_adopcion }}
+            </span>
+          </td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% else %}
+<div style="text-align:center; padding:4rem 2rem;">
+  <i class="fa-solid fa-users" style="font-size:3rem; color:#c7d2fe; display:block; margin-bottom:1rem;"></i>
+  <h4 style="color:#374151; font-weight:600;">Sin adopciones aún</h4>
+  <p style="color:#9ca3af; margin-top:0.5rem;">Las adopciones completadas aparecerán aquí</p>
+</div>
+{% endif %}
 
 {% endblock %}
