@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdoptaApp - Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4ff;
+        }
+
+        /* ── Panel izquierdo ── */
+        .left-panel {
+            width: 55%;
+            background: linear-gradient(135deg, #1a1a6e 0%, #2d2db5 50%, #4a90d9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            top: -100px; left: -100px;
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            bottom: -80px; right: -80px;
+        }
+
+        .brand-title {
+            color: #fff;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        .brand-title span { color: #7dd3fc; }
+
+        .brand-sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 1rem;
+            margin-top: 0.4rem;
+            z-index: 1;
+        }
+
+        /* Ilustración SVG */
+        .illustration {
+            width: 340px;
+            margin: 2.5rem 0;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-14px); }
+        }
+
+        .pills {
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .pill {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 50px;
+            padding: 0.35rem 1rem;
+            font-size: 0.82rem;
+            backdrop-filter: blur(6px);
+        }
+
+        /* ── Panel derecho ── */
+        .right-panel {
+            width: 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            background: #f0f4ff;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #1a1a6e;
+        }
+        .login-box p.sub {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.88rem;
+        }
+
+        .input-group-text {
+            background: #e8edff;
+            border: 1.5px solid #c7d2fe;
+            color: #4a90d9;
+        }
+
+        .form-control {
+            border: 1.5px solid #c7d2fe;
+            border-left: none;
+            padding: 0.65rem 1rem;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control:focus {
+            border-color: #2d2db5;
+            box-shadow: 0 0 0 3px rgba(45,45,181,0.12);
+            outline: none;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #1a1a6e, #2d2db5);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            transition: opacity 0.2s, transform 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .btn-login:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            color: #fff;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin: 1.25rem 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #d1d5db;
+        }
+
+        .register-link {
+            color: #2d2db5;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .register-link:hover { text-decoration: underline; }
+
+        .alert-danger {
+            border-radius: 10px;
+            font-size: 0.9rem;
+            border: none;
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .left-panel { display: none; }
+            .right-panel { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Panel izquierdo ── -->
+<div class="left-panel">
+    <div class="brand-title"><i class="fa-solid fa-paw"></i> Adopta<span>App</span></div>
+    <div class="brand-sub">Conectando mascotas con familias amorosas</div>
+
+    <!-- Ilustración SVG -->
+    <svg class="illustration" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- Monitor -->
+        <rect x="100" y="60" width="300" height="200" rx="18" fill="#1e3a5f" stroke="#4a90d9" stroke-width="3"/>
+        <rect x="115" y="75" width="270" height="170" rx="10" fill="#0f2540"/>
+        <!-- Pantalla: silueta perro -->
+        <ellipse cx="230" cy="160" rx="55" ry="45" fill="#4a90d9" opacity="0.15"/>
+        <path d="M195 175 Q200 130 230 125 Q260 130 265 175 Q255 195 230 198 Q205 195 195 175Z" fill="#7dd3fc" opacity="0.85"/>
+        <ellipse cx="215" cy="138" rx="12" ry="15" fill="#7dd3fc" opacity="0.85"/>
+        <ellipse cx="245" cy="138" rx="12" ry="15" fill="#7dd3fc" opacity="0.85"/>
+        <circle cx="222" cy="162" r="4" fill="#1a1a6e"/>
+        <circle cx="238" cy="162" r="4" fill="#1a1a6e"/>
+        <ellipse cx="230" cy="172" rx="6" ry="4" fill="#f9a8d4"/>
+        <!-- Barras decorativas pantalla derecha -->
+        <rect x="300" y="90" width="70" height="8" rx="4" fill="#4a90d9" opacity="0.6"/>
+        <rect x="300" y="105" width="50" height="6" rx="3" fill="#7dd3fc" opacity="0.4"/>
+        <rect x="300" y="117" width="60" height="6" rx="3" fill="#7dd3fc" opacity="0.4"/>
+        <rect x="300" y="135" width="70" height="30" rx="6" fill="#2d2db5" opacity="0.5"/>
+        <rect x="300" y="175" width="70" height="30" rx="6" fill="#1a6e3a" opacity="0.5"/>
+        <!-- Soporte monitor -->
+        <rect x="230" y="260" width="40" height="20" rx="4" fill="#2d4a6e"/>
+        <rect x="200" y="278" width="100" height="12" rx="6" fill="#2d4a6e"/>
+        <!-- Gato a la derecha -->
+        <ellipse cx="390" cy="260" rx="30" ry="25" fill="#f59e0b" opacity="0.9"/>
+        <polygon points="370,245 378,225 386,245" fill="#f59e0b"/>
+        <polygon points="394,245 402,225 410,245" fill="#f59e0b"/>
+        <circle cx="384" cy="255" r="3" fill="#1a1a6e"/>
+        <circle cx="396" cy="255" r="3" fill="#1a1a6e"/>
+        <path d="M385 262 Q390 266 395 262" stroke="#1a1a6e" stroke-width="1.5" fill="none"/>
+        <!-- Patitas gato -->
+        <ellipse cx="372" cy="283" rx="10" ry="7" fill="#f59e0b"/>
+        <ellipse cx="408" cy="283" rx="10" ry="7" fill="#f59e0b"/>
+        <!-- Huella decorativa -->
+        <circle cx="130" cy="300" r="8" fill="rgba(125,211,252,0.25)"/>
+        <circle cx="123" cy="291" r="5" fill="rgba(125,211,252,0.2)"/>
+        <circle cx="137" cy="291" r="5" fill="rgba(125,211,252,0.2)"/>
+        <circle cx="118" cy="283" r="4" fill="rgba(125,211,252,0.15)"/>
+        <!-- Corazón flotante -->
+        <path d="M440 100 C440 95 433 88 425 95 C417 88 410 95 410 100 C410 110 425 120 425 120 C425 120 440 110 440 100Z" fill="#f9a8d4" opacity="0.8"/>
+        <!-- Estrellitas -->
+        <text x="155" y="55" font-size="18" fill="#fbbf24" opacity="0.7">✦</text>
+        <text x="370" y="70" font-size="12" fill="#7dd3fc" opacity="0.6">✦</text>
+        <text x="100" y="310" font-size="10" fill="#f9a8d4" opacity="0.5">✦</text>
+    </svg>
+
+    <div class="pills">
+        <span class="pill"><i class="fa-solid fa-dog me-1"></i> Perros</span>
+        <span class="pill"><i class="fa-solid fa-cat me-1"></i> Gatos</span>
+        <span class="pill"><i class="fa-solid fa-heart me-1"></i> Adopciones</span>
+    </div>
+</div>
+
+<!-- ── Panel derecho ── -->
+<div class="right-panel">
+    <div class="login-box">
+
+        <h2>Bienvenido de nuevo 👋</h2>
+        <p class="sub">Ingresa tus credenciales para continuar</p>
+
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-danger mb-3">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>{{ msg }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'app1:ingreso' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Tu nombre de usuario" name="username" required autofocus>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control" placeholder="Tu contraseña" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100">
+                <i class="fa-solid fa-right-to-bracket me-2"></i>Iniciar sesión
+            </button>
+        </form>
+
+        <div class="divider">o</div>
+
+        <p class="text-center text-muted" style="font-size:0.92rem;">
+            ¿No tienes cuenta?
+            <a href="{% url 'app1:registro' %}" class="register-link">Regístrate gratis</a>
+        </p>
+
+        <p class="text-center mt-4" style="font-size:0.78rem; color:#9ca3af;">
+            <i class="fa-solid fa-paw me-1"></i> AdoptaApp — Dale un hogar a quien lo necesita
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
