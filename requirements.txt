@@ -1,0 +1,17 @@
+asgiref==3.11.0
+Django==6.0
+djangorestframework==3.16.1
+gunicorn==26.0.0
+whitenoise==6.12.0
+pillow==12.2.0
+rembg==2.0.75
+onnxruntime==1.26.0
+numpy==2.4.6
+scipy==1.17.1
+scikit-image==0.26.0
+ImageIO==2.37.3
+PyMatting==1.1.15
+tqdm==4.67.3
+requests==2.34.2
+sqlparse==0.5.4
+tzdata==2025.2
